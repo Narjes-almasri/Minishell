@@ -3,31 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   env2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naalmasr <naalmasr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:22:46 by naalmasr          #+#    #+#             */
-/*   Updated: 2025/08/29 13:24:56 by naalmasr         ###   ########.fr       */
+/*   Updated: 2026/05/16 23:54:44 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**handle_unset_fun(char **env, char *var, int var_len)
+char **handle_unset_fun(char **env, char *var, int var_len)
 {
-	int	i;
-	int	j;
+	int i;
 
-	j = 0;
 	i = 0;
 	while (env[i] != NULL)
 		i++;
 	i = 0;
 	while (env[i])
 	{
-		if ((ft_strncmp(env[i], var, var_len) == 0
-				&& env[i][var_len] == '=') == 0)
+		if ((ft_strncmp(env[i], var, var_len) == 0 && env[i][var_len] == '=') == 0)
 		{
-			j++;
+			;
 		}
 		else
 		{
@@ -39,18 +36,18 @@ char	**handle_unset_fun(char **env, char *var, int var_len)
 	return (env);
 }
 
-void	freee(char **copy, int i)
+void freee(char **copy, int i)
 {
 	while (--i >= 0)
 		free(copy[i]);
 	free(copy);
 }
 
-char	**cpy_env(char **env)
+char **cpy_env(char **env)
 {
-	char	**copy;
-	int		len;
-	int		i;
+	char **copy;
+	int len;
+	int i;
 
 	i = 0;
 	len = 0;
@@ -75,9 +72,9 @@ char	**cpy_env(char **env)
 	return (copy);
 }
 
-char	**create_env(char **env)
+char **create_env(char **env)
 {
-	char	**en;
+	char **en;
 
 	if (!env)
 	{
@@ -97,17 +94,17 @@ char	**create_env(char **env)
 	return (NULL);
 }
 
-void	free_env(char **env)
+void free_env(char **env)
 {
-	int	i;
+	int i;
 
 	if (!env)
-		return ;
+		return;
 	i = 0;
 	while (env[i])
 	{
 		free(env[i]);
 		i++;
 	}
-	free (env);
+	free(env);
 }

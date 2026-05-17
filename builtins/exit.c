@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naalmasr <naalmasr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:35:25 by naalmasr          #+#    #+#             */
-/*   Updated: 2025/08/29 13:57:30 by naalmasr         ###   ########.fr       */
+/*   Updated: 2026/05/16 23:56:20 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_status_tokens(t_struct_token *token_list,
+void exit_status_tokens(t_struct_token *token_list,
 						t_exit_status *exit_status)
 {
-	t_struct_token	*tmp;
+	t_struct_token *tmp;
 
 	tmp = token_list;
 	while (tmp)
@@ -25,28 +25,22 @@ void	exit_status_tokens(t_struct_token *token_list,
 	}
 }
 
-int	search_operates(t_struct_token *t)
+int search_operates(t_struct_token *t)
 {
-	int	i;
-
-	i = 0;
 	while (t != NULL)
 	{
-		if (ft_strcmp(t->type, "|") == 0 || ft_strcmp(t->type, ">>") == 0
-			|| ft_strcmp(t->type, ">") == 0 || ft_strcmp(t->type, "<<") == 0
-			|| ft_strcmp(t->type, "<") == 0)
+		if (ft_strcmp(t->type, "|") == 0 || ft_strcmp(t->type, ">>") == 0 || ft_strcmp(t->type, ">") == 0 || ft_strcmp(t->type, "<<") == 0 || ft_strcmp(t->type, "<") == 0)
 		{
 			return (0);
 		}
-		i++;
 		t = t->next;
 	}
 	return (1);
 }
 
-int	ft_exit_shell(t_struct_token *tmp, t_struct_token *line)
+int ft_exit_shell(t_struct_token *tmp, t_struct_token *line)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	tmp = line;
@@ -60,7 +54,8 @@ int	ft_exit_shell(t_struct_token *tmp, t_struct_token *line)
 		return (1);
 	}
 	if ((ft_strcmp(line->value, "exit") == 0 || ft_strcmp(line->value,
-				"'exit'") == 0) && ft_strcmp(line->value, "|") != 0)
+														  "'exit'") == 0) &&
+		ft_strcmp(line->value, "|") != 0)
 	{
 		line = line->next;
 		i = ft_numeric(i, line);
@@ -72,16 +67,15 @@ int	ft_exit_shell(t_struct_token *tmp, t_struct_token *line)
 	return (0);
 }
 
-int	parse_and_convert(const char *str, int sign, long long *res)
+int parse_and_convert(const char *str, int sign, long long *res)
 {
-	unsigned long long	num;
+	unsigned long long num;
 
 	num = 0;
 	while (*str && ft_isdigit(*str))
 	{
 		num = num * 10 + (*str - '0');
-		if ((sign == 1 && num > LLONG_MAX)
-			|| (sign == -1 && num > (unsigned long long)LLONG_MAX + 1ULL))
+		if ((sign == 1 && num > LLONG_MAX) || (sign == -1 && num > (unsigned long long)LLONG_MAX + 1ULL))
 			return (0);
 		str++;
 	}
@@ -94,9 +88,9 @@ int	parse_and_convert(const char *str, int sign, long long *res)
 	return (1);
 }
 
-int	ft_str_to_ll(const char *str, long long *res)
+int ft_str_to_ll(const char *str, long long *res)
 {
-	int	sign;
+	int sign;
 
 	sign = 1;
 	if (*str == '-')

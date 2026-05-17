@@ -1,32 +1,33 @@
 CC      = cc
 NAME    = minishell
-CFLAGS  = -Wall -Wextra -Werror -I.
+CFLAGS  = -Wall -Wextra -Werror -I./include -I/opt/homebrew/opt/readline/include -I/usr/local/opt/readline/include
+LDFLAGS = -L/opt/homebrew/opt/readline/lib -L/usr/local/opt/readline/lib -lreadline
 
 SRC = main.c \
-      init_signal.c \
-      simple_expand/expand_variables.c \
-      simple_expand/expand_variables_2.c \
-      buildin/env.c \
-      buildin/env2.c \
-      buildin/builtin.c \
-      buildin/buildin2.c\
-      buildin/exit2.c\
-      buildin/exit.c\
-      echo/excute_singel_command.c \
-      echo/echo_quotes.c \
-      echo/env_key_value.c \
-      echo/quote_helpers.c \
-      echo/echo_no_quotes.c \
-      excute/excutttttttttttttttttttt.c \
-      excute/excute.c \
-      excute/helper_buildin.c\
-      excute/cleanup_and_init_pip.c\
-      excute/pipe_and_heredoc.c\
-      excute/child.c \
-      excute/export.c\
-      excute/fd_read_write.c \
-      excute/runs_builtin_commands.c\
-      excute/runs_1_commands.c \
+      signals/init_signal.c \
+      expansion/expand_variables.c \
+      expansion/expand_variables_2.c \
+      builtins/env.c \
+      builtins/env2.c \
+      builtins/builtin.c \
+      builtins/buildin2.c\
+      builtins/exit2.c\
+      builtins/exit.c\
+      builtins/echo/excute_singel_command.c \
+      builtins/echo/echo_quotes.c \
+      builtins/echo/env_key_value.c \
+      builtins/echo/quote_helpers.c \
+      builtins/echo/echo_no_quotes.c \
+      execution/excutttttttttttttttttttt.c \
+      execution/excute.c \
+      execution/helper_buildin.c\
+      execution/cleanup_and_init_pip.c\
+      execution/pipe_and_heredoc.c\
+      execution/child.c \
+      execution/export.c\
+      execution/fd_read_write.c \
+      execution/runs_builtin_commands.c\
+      execution/runs_1_commands.c \
       heredoc/heredo.c\
       heredoc/herd2.c\
       heredoc/herd3.c\
@@ -43,42 +44,46 @@ SRC = main.c \
       libft/libft4.c \
       libft/libft5.c \
       libft/libft_utils.c \
-      linked_list/check_command.c\
-      linked_list/check_command2.c\
-      linked_list/check_command3.c\
-      linked_list/creat_3d_array.c \
-      linked_list/command_execution.c\
-      linked_list/Def_of_linked_list_variables_3.c \
-      linked_list/Def_of_linked_list_variables_2.c \
-      linked_list/Def_of_linked_list_variables.c \
-      linked_list/init_pipex.c \
-      linked_list/repalce_cmd.c \
-       linked_list/repalce_cmd2.c \
-      linked_list/repalce_cmd3.c \
-      linked_list/command_execution2.c\
-      linked_list/command_validation.c \
-      linked_list/linked_list_fun.c \
-      linked_list/linked_list_fun2.c \
-      linked_list/readirection.c 
+      parsing/check_command.c\
+      parsing/check_command2.c\
+      parsing/check_command3.c\
+      parsing/creat_3d_array.c \
+      parsing/command_execution.c\
+      parsing/Def_of_linked_list_variables_3.c \
+      parsing/Def_of_linked_list_variables_2.c \
+      parsing/Def_of_linked_list_variables.c \
+      parsing/init_pipex.c \
+      parsing/repalce_cmd.c \
+      parsing/repalce_cmd2.c \
+      parsing/repalce_cmd3.c \
+      parsing/command_execution2.c\
+      parsing/command_validation.c \
+      parsing/linked_list_fun.c \
+      parsing/linked_list_fun2.c \
+      parsing/readirection.c 
 
 OBJDIR  = build
 OBJ     = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
 
 all: $(NAME)
-
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -lreadline
+	@echo "$(YELLOW)🔧 Linking objects...$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LDFLAGS)
+	@echo "$(GREEN)✅ Build complete: $(NAME)$(RESET)"
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(CYAN)🧩 Compiling:$(RESET) $<"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJDIR)
+	@echo "$(YELLOW)🧹 Cleaning object files...$(RESET)"
+	@rm -rf $(OBJDIR)
 
 fclean: clean
-	rm -f $(NAME)
+	@echo "$(YELLOW)🗑️ Removing executable...$(RESET)"
+	@rm -f $(NAME)
 
 re: fclean all
 

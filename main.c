@@ -12,6 +12,66 @@
 
 #include "minishell.h"
 
+void clear_screen(void)
+{
+    printf("\033[2J\033[H");
+    fflush(stdout);
+}
+
+void print_line_with_delay(const char *line, const char *color, int delay_ms)
+{
+    printf("%s%s%s%s\n", BOLD, color, line, RESET);
+    fflush(stdout);
+    usleep(delay_ms * 1000);
+}
+
+void print_animated_banner(void)
+{
+    clear_screen();
+    const char *colors[] = {
+        BRIGHT_CYAN,
+        BRIGHT_CYAN,
+        BRIGHT_MAGENTA,
+        BRIGHT_MAGENTA,
+        BRIGHT_YELLOW,
+        BRIGHT_YELLOW,
+        BRIGHT_CYAN
+    };
+    
+    const char *banner[] = {
+        "",
+        "  ███╗   ███╗██╗███╗   ██╗██╗███╗   ██╗███████╗██╗  ██╗███████╗██╗     ██╗     ",
+        "  ████╗ ████║██║████╗  ██║██║████╗  ██║██╔════╝██║  ██║██╔════╝██║     ██║     ",
+        "  ██╔████╔██║██║██╔██╗ ██║██║██╔██╗ ██║███████╗███████║█████╗  ██║     ██║     ",
+        "  ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╗██║╚════██║██╔══██║██╔══╝  ██║     ██║     ",
+        "  ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚████║███████║██║  ██║███████╗███████╗███████╗",
+        "  ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝",
+        ""
+    };
+    
+   int banner_lines = sizeof(banner) / sizeof(banner[0]);
+int color_lines  = sizeof(colors) / sizeof(colors[0]);
+    
+ for (int i = 0; i < banner_lines; i++)
+{
+    const char *col = (i < color_lines) ? colors[i] : BRIGHT_WHITE;
+    print_line_with_delay(banner[i], col, 100);
+}
+    
+    usleep(300000);
+    printf("                            %s%s    🌻%s\n", BRIGHT_YELLOW, BOLD, RESET);
+    usleep(200000);
+    
+    printf("%s%s                  A beautiful shell experience%s\n\n", 
+           DIM, BRIGHT_WHITE, RESET);
+    
+    usleep(400000);
+    
+    printf("%s                      Type %sexit%s to quit%s\n\n\n", 
+           DIM, BRIGHT_YELLOW, DIM, RESET);
+}
+
+
 void	shell_loop(char *input, char ***env, char **test,
 		t_exit_status *exit_status)
 {
@@ -53,6 +113,7 @@ int	main(int ac, char **argv, char **envp)
 	input = NULL;
 	test = NULL;
 	status = 0;
+	print_animated_banner();
 	(void)argv;
 	if (ac != 1)
 		return (0);
